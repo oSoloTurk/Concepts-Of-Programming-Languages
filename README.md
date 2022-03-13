@@ -29,3 +29,4 @@ Secondary Targets:
 * Tool can be handle more then 1 files at the one call 
 * Tool have debug mode for the founded operators
 * Tool have expanded mode of the debug for the all steps of the analysis
+* Tool can be handle all of java operands
