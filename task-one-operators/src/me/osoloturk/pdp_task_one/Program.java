@@ -14,7 +14,7 @@ public class Program {
         List<String> parameters = new ArrayList<>(Arrays.asList(args));
         parameters.add("Deneme.java");
         parameters.add("Deneme2.java");
-        //parameters.add("--debug");
+        parameters.add("--debug");
         if (parameters.size() < 1) {
             System.out.println("You must have to define target files in parameters\n" +
                     "Example: java -jar app.jar targetfile.java targetfile2.java\n" +
@@ -149,9 +149,9 @@ public class Program {
 
     public enum DEBUG_MODE {
         CLOSE, ENABLED, EXPANDED;
-    }    public static DEBUG_MODE DEBUG_MODE = Program.DEBUG_MODE.CLOSE;
+    }
 
-
+    public static DEBUG_MODE DEBUG_MODE = Program.DEBUG_MODE.CLOSE;
 
 
 }
