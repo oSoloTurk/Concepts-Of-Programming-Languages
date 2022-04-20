@@ -27,3 +27,22 @@ out*
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+*.json
+task-two-object-oriented-c/cmake-build-debug/.cmake/api/v1/query/cache-v2
+task-two-object-oriented-c/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1
+task-two-object-oriented-c/cmake-build-debug/.cmake/api/v1/query/codemodel-v2
+task-two-object-oriented-c/cmake-build-debug/.cmake/api/v1/query/toolchains-v1
+task-two-object-oriented-c/cmake-build-debug/.ninja_deps
+task-two-object-oriented-c/cmake-build-debug/.ninja_log
+*.obj
+*.ninja
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/a.exe
+*.cmake
+*.bin
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/CMakeCCompilerId.c
+task-two-object-oriented-c/cmake-build-debug/CMakeCache.txt
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/clion-environment.txt
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/cmake.check_cache
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/clion-log.txt
+task-two-object-oriented-c/cmake-build-debug/CMakeFiles/TargetDirectories.txt
+*.o
