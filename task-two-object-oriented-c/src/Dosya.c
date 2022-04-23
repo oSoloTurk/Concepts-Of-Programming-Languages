@@ -3,12 +3,16 @@
 //
 #include <malloc.h>
 #include "../include/Dosya.h"
+#include <errno.h>
+#include <string.h>
 
 Dosya new_Dosya(char *path) {
     Dosya dosya = (Dosya) malloc(sizeof(Dosya));
     dosya->path = path;
-    if ((dosya->file = fopen(dosya->path, "r")) == NULL) {
-        printf("We do not acces to %s for write operation\n", dosya->path);
+    errno = 0;
+    dosya->file = fopen(dosya->path, "r+");
+    if (dosya->file == NULL) {
+        printf("We do not acces to %s for read operation, errno: %d\n", dosya->path, errno);
         return NULL;
     }
 
@@ -19,12 +23,16 @@ Dosya new_Dosya(char *path) {
 }
 
 char *next(const Dosya dosya, char* format) {
-    char* readedInput = (char*) calloc(ESTIMATED_LINE_LENGTH, sizeof(char));
-    char* readLine;
-    fscanf(dosya->getFile(dosya), format, readLine);
-    return readedInput;
+    char* readedInput = (char*) malloc(sizeof(char)*ESTIMATED_LINE_LENGTH);
+    fscanf(dosya->getFile(dosya), format, readedInput);
+    printf(":%s\n", readedInput);    
+    return realloc(readedInput, sizeof(char) * strlen(readedInput));
 }
 
 FILE *getFile(const Dosya dosya) {
     return dosya->file;
+}
+
+char *getPath(const Dosya dosya) {
+    return dosya->path;
 }

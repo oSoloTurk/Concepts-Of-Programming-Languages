@@ -15,6 +15,7 @@ Oyun new_Oyun() {
 	oyun->getRound = &getRound;
 	oyun->getWinnerNumber = &getWinnerNumber;
 	oyun->getHouse = &getHouse;
+	oyun->getPlayers = &getPlayers;
 
 	oyun->nextRound = &nextRound;
 	oyun->playGame = &playGame;
@@ -22,7 +23,7 @@ Oyun new_Oyun() {
 
 	oyun->joinGame = &joinGame;
 
-	oyun->winnerNumbers = new_Dosya("Sayilar.txt");
+	oyun->winnerNumbers = new_Dosya("./Sayilar.txt");
 
 	return oyun;
 }
@@ -38,9 +39,9 @@ void* nextRound(const Oyun oyun) {
 		} else {
 			*kisi->getTotalMoney(kisi) -= transaction;
 		}
-		if(kisi->getTotalMoney(kisi) < 1000) {
+		if(*kisi->getTotalMoney(kisi) < 1000) {
 			eliminatePlayer(oyun, kisi);
-			printf("Oyuncu %s Elendi.\n", kisi->toString(kisi));
+			printf("Oyuncu %s Elendi.\n", kisi->getName(kisi));
 		}
 	}
 	*oyun->getRound(oyun) += 1;
@@ -49,15 +50,15 @@ void* nextRound(const Oyun oyun) {
 void* playGame(const Oyun oyun, const Arayuz arayuz) {
 	while(1){
 		oyun->nextRound(oyun);
-		if(oyun->getKisiler(oyun) == NULL) {
+		if(oyun->getPlayers(oyun) == NULL) {
 			break;
 		}
-		oyun->printStatus(oyun);
+		oyun->printStatus(oyun, arayuz);
 	}
 }
 
-void* printStatus(const Oyun oyun){
-	Kisi* kisiler = oyun->getKisiler(oyun);
+void* printStatus(const Oyun oyun, const Arayuz arayuz){
+	Kisi* kisiler = oyun->getPlayers(oyun);
 	Kisi topRich = kisiler[0];
 	for(int index = 0; index < (sizeof(kisiler) / sizeof(Kisi));index++) {
 		if (*topRich->getTotalMoney(topRich) < *kisiler[index]->getTotalMoney(kisiler[index])){
@@ -65,15 +66,15 @@ void* printStatus(const Oyun oyun){
 		}
 	}
 	arayuz->cleanScreen(arayuz);
-	arayuz->writ*eStatus(arayuz, 
-		*oyun->getLuckyNumber(oyun), 
+	arayuz->writeStatus(arayuz, 
+		*oyun->getWinnerNumber(oyun), 
 		*oyun->getRound(oyun),
 		*oyun->getHouse(oyun),
 		topRich
 		);
 }
 
-void* joinGame(const Oyun oyun, const Kisi kisi, const float price) {
+void* joinGame(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
 	int index = (sizeof(players) / sizeof(Kisi));
 	players = realloc(players, (index + 1) * sizeof(Kisi));
@@ -98,7 +99,7 @@ Dosya getWinnerNumbers(const Oyun oyun){
 }
 
 Kisi* getPlayers(const Oyun oyun){
-	return oyun->kisiler;
+	return oyun->players;
 }
 
 void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {

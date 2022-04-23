@@ -11,7 +11,7 @@
 
 struct Arayuz {
     void* (*cleanScreen)(struct Arayuz*);
-    void* (*writeStatus)(struct Arayuz*, int luckyNumber, int round, float house, Kisi topRich);
+    void* (*writeStatus)(struct Arayuz*, int luckyNumber, int round, float house, struct Kisi* topRich);
 };
 
 typedef struct Arayuz *Arayuz;
