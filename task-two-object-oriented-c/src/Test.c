@@ -1,5 +1,6 @@
 #include "../include/Dosya.h"
 #include "../include/Kisi.h"
+#include "../include/Oyun.h"
 
 //
 // Created by hakki on 4/15/2022.
@@ -29,9 +30,11 @@ int main(int argc,char **argv) {
         line++;
         kisiler = realloc(kisiler, sizeof(Kisi) * line);
     }
-    printf("Size: %d", sizeof(kisiler));
-    for (int index = 0; index < sizeof(kisiler) / sizeof(Kisi); index++) {
-        printf("Person: %s\n", kisiler[index]->toString);
+    Oyun oyun = new_Oyun();
+    for(int index = 0;index < (sizeof(kisiler) / sizeof(Kisi));index++){
+        oyun->joinGame(oyun, kisiler[index]);
     }
+    oyun->playGame(oyun);
+    
     return 0;
 }
