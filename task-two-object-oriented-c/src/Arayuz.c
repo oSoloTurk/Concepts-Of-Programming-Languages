@@ -36,8 +36,9 @@ void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, 
 
 void *cleanScreen(const Arayuz arayuz) {
   //This is good but like a lifehack, legacy way below the here
-  //system("clear");
-  
+  system("clear");
+
+  /*
   for(int eraseCursor = 0;eraseCursor < (INTERFACE_HEIGHT * ESTIMATED_LINE_WIDTH);eraseCursor++) {
     printf("\b");
   }
@@ -47,4 +48,5 @@ void *cleanScreen(const Arayuz arayuz) {
     }
     printf("\n");
   }
+  */
 }
