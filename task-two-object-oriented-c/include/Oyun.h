@@ -18,8 +18,15 @@ struct Oyun{
 
    Dosya winnerNumbers;
 
-   void* (*nextRound)(struct Oyun*);
+   int* (*getRound)(struct Oyun*);
    int* (*getWinnerNumber)(struct Oyun*);
+   float* (*getHouse)(struct Oyun*);
+   Dosya (*getWinnerNumbers)(struct Oyun*);
+
+   void* (*nextRound)(struct Oyun*);
+   void* (*playGame)(struct Oyun*);
+   void* (*printStatus)(struct Oyun*);
+
    void* (*joinGame)(struct Oyun*, Kisi, float);
 };
 
@@ -28,8 +35,17 @@ typedef struct Oyun *Oyun;
 
 Oyun new_Oyun();
 
-void* nextRound(const Oyun);
+
 int* getWinnerNumber(const Oyun);
+int* getRound(const Oyun);
+float* getHouse(const Oyun);
+Dosya getWinnerNumbers(const Oyun);
+Kisi* getPlayers(const Oyun);
+
+void* nextRound(const Oyun);
+void* playGame(const Oyun);
+void* printStatus(const Oyun);
+
 void* joinGame(const Oyun, const Kisi, const float);
 
 #endif //PDP_TASK_TWO_OYUN_H
