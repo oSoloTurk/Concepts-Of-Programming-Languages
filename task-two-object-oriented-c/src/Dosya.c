@@ -7,7 +7,7 @@
 #include <string.h>
 
 Dosya new_Dosya(char *path) {
-    Dosya dosya = (Dosya) malloc(sizeof(Dosya));
+    Dosya dosya = (Dosya) malloc(sizeof(struct Dosya));
     dosya->path = path;
     errno = 0;
     dosya->file = fopen(dosya->path, "r+");
@@ -16,17 +16,9 @@ Dosya new_Dosya(char *path) {
         return NULL;
     }
 
-    dosya->next = &next;
     dosya->getFile = &getFile;
 
     return dosya;
-}
-
-char *next(const Dosya dosya, char* format) {
-    char* readedInput = (char*) malloc(sizeof(char)*ESTIMATED_LINE_LENGTH);
-    fscanf(dosya->getFile(dosya), format, readedInput);
-    printf(":%s\n", readedInput);    
-    return realloc(readedInput, sizeof(char) * strlen(readedInput));
 }
 
 FILE *getFile(const Dosya dosya) {

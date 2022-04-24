@@ -8,7 +8,7 @@
 #define ESTIMATED_LINE_WIDTH 100
 
 Arayuz new_Arayuz() {
-    Arayuz arayuz = (Arayuz) malloc(sizeof(Arayuz));    
+    Arayuz arayuz = (Arayuz) malloc(sizeof(struct Arayuz));    
 
     arayuz->cleanScreen = &cleanScreen;
     arayuz->writeStatus = &writeStatus;
@@ -36,7 +36,7 @@ void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, 
 
 void *cleanScreen(const Arayuz arayuz) {
   //This is good but like a lifehack, legacy way below the here
-  system("clear");
+  system("cls");
 
   /*
   for(int eraseCursor = 0;eraseCursor < (INTERFACE_HEIGHT * ESTIMATED_LINE_WIDTH);eraseCursor++) {

@@ -12,30 +12,23 @@
 // Created by hakki on 4/15/2022.
 //
 int main(int argc, char ** argv) {
-  Kisi * kisiler = (Kisi * ) calloc(1, sizeof(Kisi));
   Dosya kisilerDosya = new_Dosya("Kisiler.txt");
 
   char buffer[100];
-  for (int line = 1; fgets(buffer, sizeof buffer, kisilerDosya -> getFile(kisilerDosya));) {
-    char * name = malloc(sizeof(char) * 25);
-    char * total = malloc(sizeof(char) * 25);
-    char * spendMoneyEachRound = malloc(sizeof(char) * 25);
-    char * luckyNumber = malloc(sizeof(char) * 25);
-    printf(":%s", buffer);
-    sscanf(buffer, "%[^#]s", name);
-    sscanf(buffer, "%[^#]s", total);
-    sscanf(buffer, "%[^#]s", spendMoneyEachRound);
-    sscanf(buffer, "%[^#]s", luckyNumber);
-    kisiler[line] = new_Kisi(name, atof(total), atof(spendMoneyEachRound), atoll(luckyNumber));
-    line++;
-    kisiler = realloc(kisiler, sizeof(Kisi) * line);
-  }
+  char name[20];
+  char surname[20];
+  char total[20];
+  char spendMoneyEachRound[20];
+  char luckyNumber[20];
+  char trash = '\0';
   Oyun oyun = new_Oyun();
-  for (int index = 0; index < (sizeof(kisiler) / sizeof(Kisi)); index++) {
-    oyun -> joinGame(oyun, kisiler[index]);
+  //William Murphy#77243.19#0.99#7
+  for (int line = 0, size = 1; fgets(buffer, sizeof buffer, kisilerDosya -> getFile(kisilerDosya));line++, size++) {
+    sscanf(buffer, "%s %[^#]%c%[^#]%c%[^#]%c%s", name, surname, &trash, total, &trash, spendMoneyEachRound, &trash, luckyNumber);
+    Kisi kisi = new_Kisi(name, atof(total), atof(spendMoneyEachRound), atol(luckyNumber));
+    oyun -> joinGame(oyun, kisi);
   }
   Arayuz arayuz = new_Arayuz();
   oyun -> playGame(oyun, arayuz);
-
   return 0;
 }

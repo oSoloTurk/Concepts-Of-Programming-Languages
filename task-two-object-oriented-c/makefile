@@ -8,4 +8,4 @@ clean:
 	gcc -I ./include/ -o ./bin/Test ./lib/Dosya.o ./lib/Kisi.o ./lib/Oyun.o ./lib/Arayuz.o ./src/Test.c
 
 run:
-	./bin/Test
+	./bin/Test 

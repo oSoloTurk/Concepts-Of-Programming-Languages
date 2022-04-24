@@ -13,8 +13,6 @@ struct Dosya {
     char* path;
     FILE* file;
 
-
-    char* (*next)(struct Dosya*, char* format);
     FILE* (*getFile)(struct Dosya*);
     char* (*getPath)(struct Dosya*);
 };
@@ -23,7 +21,6 @@ typedef struct Dosya *Dosya;
 
 Dosya new_Dosya(char* path);
 
-char* next(const Dosya dosya, char* format);
 FILE* getFile(const Dosya dosya);
 char* getPath(const Dosya dosya);
 

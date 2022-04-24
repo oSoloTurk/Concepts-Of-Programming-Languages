@@ -6,16 +6,21 @@
 void* eliminatePlayer(const Oyun, const Kisi);
 
 Oyun new_Oyun() {
-	Oyun oyun = (Oyun)malloc(sizeof(Oyun));
+	Oyun oyun = (Oyun)malloc(sizeof(struct Oyun));
 
 	oyun->round = 0;
 	oyun->winnerNumber = -1;
 	oyun->house = 0.0;
+	oyun->playerSize = 0;
+
+	oyun->players = malloc(sizeof(Kisi));
 
 	oyun->getRound = &getRound;
 	oyun->getWinnerNumber = &getWinnerNumber;
 	oyun->getHouse = &getHouse;
 	oyun->getPlayers = &getPlayers;
+
+	oyun->setPlayers = &setPlayers;
 
 	oyun->nextRound = &nextRound;
 	oyun->playGame = &playGame;
@@ -30,9 +35,10 @@ Oyun new_Oyun() {
 
 void* nextRound(const Oyun oyun) {
 	Kisi* players = oyun->getPlayers(oyun);
-	for(int index = 0; index < (sizeof(players) / sizeof(Kisi));index++) {
+	for(int index = 0; index < oyun->playerSize;index++) {
 		Kisi kisi = players[index];
-		float transaction = *kisi->getTotalMoney(kisi) * *kisi->getSpendMoneyEachRound(kisi);
+		float transaction = (*kisi->getTotalMoney(kisi));
+		transaction *= (*kisi->getSpendMoneyEachRound(kisi));
 		if(*kisi->getLuckyNumber(kisi) == *oyun->getWinnerNumber(oyun)) {
 			*kisi->getTotalMoney(kisi) += (transaction * 10);
 			*oyun->getHouse(oyun) -= (transaction * 10);
@@ -76,9 +82,10 @@ void* printStatus(const Oyun oyun, const Arayuz arayuz){
 
 void* joinGame(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
-	int index = (sizeof(players) / sizeof(Kisi));
-	players = realloc(players, (index + 1) * sizeof(Kisi));
-	players[index] = kisi;
+	players = realloc(players, (oyun->playerSize + 1) * sizeof(Kisi));
+	players[oyun->playerSize] = kisi;
+	oyun->setPlayers(oyun, players);
+	oyun->playerSize++;
 	return 0;
 }
 
@@ -102,9 +109,13 @@ Kisi* getPlayers(const Oyun oyun){
 	return oyun->players;
 }
 
+void* setPlayers(const Oyun oyun, Kisi* players){ 
+	oyun->players = players;
+}
+
 void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
-	int length = (sizeof(players) / sizeof(Kisi));
+	int length = oyun->playerSize;
 	int searchinIngex = 0;
 	for(; searchinIngex < length;searchinIngex++){
 		if(players[searchinIngex] == kisi) {
@@ -114,7 +125,8 @@ void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 	Kisi temp = players[searchinIngex];
 	players[searchinIngex] = players[length - 1];
 	players = realloc(players, (length - 1) * sizeof(Kisi));
-	free(temp);
+	oyun->setPlayers(oyun, players);
+	oyun->playerSize--;
 	return 0;
 }
 

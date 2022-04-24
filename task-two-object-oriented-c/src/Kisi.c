@@ -2,9 +2,11 @@
 // Created by hakki on 4/15/2022.
 //
 #include "../include/Kisi.h"
+#include <stdio.h>
 
 Kisi new_Kisi(char* name, float totalMoney, float spendMoneyEachRound, int luckyNumber){
-    Kisi kisi = (Kisi)malloc(sizeof(Kisi));
+    Kisi kisi = (Kisi)malloc(sizeof(struct Kisi));
+    
     kisi->name = name;
     kisi->totalMoney = totalMoney;
     kisi->spendMoneyEachRound = spendMoneyEachRound;
@@ -14,7 +16,6 @@ Kisi new_Kisi(char* name, float totalMoney, float spendMoneyEachRound, int lucky
     kisi->getTotalMoney = &getTotalMoney;
     kisi->getSpendMoneyEachRound = &getSpendMoneyEachRound;
     kisi->getLuckyNumber = &getLuckyNumber;
-
     return kisi;
 }
 
