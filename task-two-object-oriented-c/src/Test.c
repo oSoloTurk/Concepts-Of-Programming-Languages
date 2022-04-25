@@ -15,8 +15,6 @@ int main(int argc, char ** argv) {
   Dosya kisilerDosya = new_Dosya("Kisiler.txt");
 
   char buffer[100];
-  char name[20];
-  char surname[20];
   char total[20];
   char spendMoneyEachRound[20];
   char luckyNumber[20];
@@ -24,6 +22,8 @@ int main(int argc, char ** argv) {
   Oyun oyun = new_Oyun();
   //William Murphy#77243.19#0.99#7
   for (int line = 0, size = 1; fgets(buffer, sizeof buffer, kisilerDosya -> getFile(kisilerDosya));line++, size++) {
+    char name[20];
+    char surname[20];
     sscanf(buffer, "%s %[^#]%c%[^#]%c%[^#]%c%s", name, surname, &trash, total, &trash, spendMoneyEachRound, &trash, luckyNumber);
     Kisi kisi = new_Kisi(name, atof(total), atof(spendMoneyEachRound), atol(luckyNumber));
     oyun -> joinGame(oyun, kisi);

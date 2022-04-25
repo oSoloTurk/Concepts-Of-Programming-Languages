@@ -28,7 +28,7 @@ void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, 
     printf("\t\t\t\t##--------------------------------------##\n");
     printf("\t\t\t\t##\t\t\t\tEN ZENGIN KISI\t\t\t##\n");
     printf("\t\t\t\t##\t\t\t\t%s\t\t\t\t##\n", topRich->getName(topRich));
-    printf("\t\t\t\t##\t\tBAKIYESI: %f\t\t\t##\n", topRich->getTotalMoney(topRich));
+    printf("\t\t\t\t##\t\tBAKIYESI: %f\t\t\t##\n", *topRich->getTotalMoney(topRich));
     printf("\t\t\t\t##########################################\n");
     printf("\n\n"); //bottom 2 empty line
   return 0;

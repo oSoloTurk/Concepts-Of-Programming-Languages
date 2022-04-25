@@ -4,6 +4,7 @@
 #include "../include/Oyun.h"
 
 void* eliminatePlayer(const Oyun, const Kisi);
+void* readNextNumber(const Oyun oyun);
 
 Oyun new_Oyun() {
 	Oyun oyun = (Oyun)malloc(sizeof(struct Oyun));
@@ -17,6 +18,7 @@ Oyun new_Oyun() {
 
 	oyun->getRound = &getRound;
 	oyun->getWinnerNumber = &getWinnerNumber;
+	oyun->getWinnerNumbers = &getWinnerNumbers;
 	oyun->getHouse = &getHouse;
 	oyun->getPlayers = &getPlayers;
 
@@ -35,19 +37,21 @@ Oyun new_Oyun() {
 
 void* nextRound(const Oyun oyun) {
 	Kisi* players = oyun->getPlayers(oyun);
+	Dosya winnerNumbers = oyun->getWinnerNumbers(oyun);
+	readNextNumber(oyun);
 	for(int index = 0; index < oyun->playerSize;index++) {
 		Kisi kisi = players[index];
 		float transaction = (*kisi->getTotalMoney(kisi));
 		transaction *= (*kisi->getSpendMoneyEachRound(kisi));
+		*kisi->getTotalMoney(kisi) -= transaction;
 		if(*kisi->getLuckyNumber(kisi) == *oyun->getWinnerNumber(oyun)) {
 			*kisi->getTotalMoney(kisi) += (transaction * 10);
-			*oyun->getHouse(oyun) -= (transaction * 10);
+			*oyun->getHouse(oyun) -= (transaction * 9);
 		} else {
-			*kisi->getTotalMoney(kisi) -= transaction;
+			*oyun->getHouse(oyun) += transaction;
 		}
 		if(*kisi->getTotalMoney(kisi) < 1000) {
 			eliminatePlayer(oyun, kisi);
-			printf("Oyuncu %s Elendi.\n", kisi->getName(kisi));
 		}
 	}
 	*oyun->getRound(oyun) += 1;
@@ -56,26 +60,28 @@ void* nextRound(const Oyun oyun) {
 void* playGame(const Oyun oyun, const Arayuz arayuz) {
 	while(1){
 		oyun->nextRound(oyun);
-		if(oyun->getPlayers(oyun) == NULL) {
+		if(oyun->playerSize <= 1) {
 			break;
 		}
 		oyun->printStatus(oyun, arayuz);
+	    sleep(1 / 3);
 	}
 }
 
 void* printStatus(const Oyun oyun, const Arayuz arayuz){
 	Kisi* kisiler = oyun->getPlayers(oyun);
 	Kisi topRich = kisiler[0];
-	for(int index = 0; index < (sizeof(kisiler) / sizeof(Kisi));index++) {
-		if (*topRich->getTotalMoney(topRich) < *kisiler[index]->getTotalMoney(kisiler[index])){
-			topRich = kisiler[index];
+	for(int index = 0; index < oyun->playerSize;index++) {
+		Kisi kisi = kisiler[index];
+		if (*(topRich->getTotalMoney(topRich)) < *(kisi->getTotalMoney(kisi))){
+			topRich = kisi;
 		}
 	}
 	arayuz->cleanScreen(arayuz);
 	arayuz->writeStatus(arayuz, 
-		*oyun->getWinnerNumber(oyun), 
-		*oyun->getRound(oyun),
-		*oyun->getHouse(oyun),
+		*(oyun->getWinnerNumber(oyun)), 
+		*(oyun->getRound(oyun)),
+		*(oyun->getHouse(oyun)),
 		topRich
 		);
 }
@@ -83,7 +89,7 @@ void* printStatus(const Oyun oyun, const Arayuz arayuz){
 void* joinGame(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
 	players = realloc(players, (oyun->playerSize + 1) * sizeof(Kisi));
-	players[oyun->playerSize] = kisi;
+	*(players + sizeof(Kisi) * oyun->playerSize) = kisi;
 	oyun->setPlayers(oyun, players);
 	oyun->playerSize++;
 	return 0;
@@ -117,13 +123,17 @@ void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
 	int length = oyun->playerSize;
 	int searchinIngex = 0;
+
 	for(; searchinIngex < length;searchinIngex++){
-		if(players[searchinIngex] == kisi) {
+		Kisi searchingUser = *(players + sizeof(Kisi) * searchinIngex);
+		if(searchingUser == kisi) {
 			break;
-		}
+		}	
 	}
-	Kisi temp = players[searchinIngex];
-	players[searchinIngex] = players[length - 1];
+	struct Kisi tempKisi = **(players + sizeof(Kisi) * (length - 1));
+	**(players + sizeof(Kisi) * (length - 1)) = *kisi;
+	**(players + sizeof(Kisi) * searchinIngex) = tempKisi;
+
 	players = realloc(players, (length - 1) * sizeof(Kisi));
 	oyun->setPlayers(oyun, players);
 	oyun->playerSize--;

@@ -8,6 +8,7 @@
 #include "Kisi.h"
 #include "Dosya.h"
 #include "Arayuz.h"
+#include<stdio.h>
 
 struct Oyun{
     

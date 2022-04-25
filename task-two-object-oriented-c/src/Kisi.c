@@ -24,13 +24,13 @@ char* getName(const Kisi kisi){
 }
 
 float* getTotalMoney(const Kisi kisi){
-    return &kisi->totalMoney;
+    return &(kisi->totalMoney);
 }
 
 float* getSpendMoneyEachRound(const Kisi kisi){
-    return &kisi->spendMoneyEachRound;
+    return &(kisi->spendMoneyEachRound);
 }
 
 int* getLuckyNumber(const Kisi kisi){
-    return &kisi->luckyNumber;
+    return &(kisi->luckyNumber);
 }
