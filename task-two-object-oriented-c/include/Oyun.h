@@ -8,6 +8,7 @@
 #include "Kisi.h"
 #include "Dosya.h"
 #include "Arayuz.h"
+#include "Queue.h"
 #include<stdio.h>
 
 struct Oyun{
@@ -17,7 +18,7 @@ struct Oyun{
    float house;
    int playerSize;
 
-   Kisi* players;
+   Queue players;
 
    Dosya winnerNumbers;
 
@@ -25,7 +26,7 @@ struct Oyun{
    int* (*getWinnerNumber)(struct Oyun*);
    float* (*getHouse)(struct Oyun*);
    Dosya (*getWinnerNumbers)(struct Oyun*);
-   Kisi* (*getPlayers)(struct Oyun*);
+   Queue (*getPlayers)(struct Oyun*);
 
    void* (*setPlayers)(struct Oyun*, Kisi*);
 
@@ -46,7 +47,7 @@ int* getWinnerNumber(const Oyun);
 int* getRound(const Oyun);
 float* getHouse(const Oyun);
 Dosya getWinnerNumbers(const Oyun);
-Kisi* getPlayers(const Oyun);
+Queue getPlayers(const Oyun);
 
 void* setPlayers(const Oyun, Kisi*);
 

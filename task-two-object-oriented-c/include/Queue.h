@@ -5,11 +5,13 @@
 #ifndef PDP_TASK_TWO_QUEUE_H
 #define PDP_TASK_TWO_QUEUE_H
 
+#include "Kisi.h"
+
 struct Node {
-   void* value;
+   Kisi value;
 
    struct Node* next;
-}
+};
 
 typedef struct Node* Node;
 
@@ -17,9 +19,9 @@ struct Queue{
 
    Node head;
 
-   void* (*add)(struct Queue*, void*);
-   void* (*remove)(struct Queue*, void*);
-   void* (*get)(struct Queue, int);
+   void* (*addItem)(struct Queue*, Kisi);
+   void* (*removeItem)(struct Queue*, Kisi);
+   Kisi (*get)(struct Queue*, int);
 };
 
 typedef struct Queue *Queue;
@@ -27,8 +29,8 @@ typedef struct Queue *Queue;
 
 Queue new_Queue();
 
-void* add(const Oyun, void*);
-void* playGame(const Oyun, void*);
-void* get(const Oyun, int);
+void* addItem(const Queue, Kisi);
+void* removeItem(const Queue, Kisi);
+Kisi get(const Queue, int);
 
 #endif //PDP_TASK_TWO_QUEUE_H

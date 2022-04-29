@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <time.h>
+#include "../include/Queue.h"
 
 
 Queue new_Queue(){
@@ -9,14 +10,16 @@ Queue new_Queue(){
 
     queue->head = NULL;
 
-    queue->add = &add;
-    queue->remove = &remove;
+    queue->addItem = &addItem;
+    queue->removeItem = &removeItem;
     queue->get = &get;
+
+    return queue;
 }
 
-void* add(Queue queue, void* value) {
+void* addItem(Queue queue, Kisi value) {
     Node newNode = (Node)malloc(sizeof(struct Node));
-    *newNode->value = *value;
+    newNode->value = value;
     if (queue->head == NULL) {
         newNode->next = NULL;
     }
@@ -24,12 +27,13 @@ void* add(Queue queue, void* value) {
     queue->head = newNode;
 }
 
-void* remove(Queue queue, void* find) {
+void* removeItem(Queue queue, Kisi find) {
+  Node startTemp = queue->head;
   Node queueNode = queue->head;
   Node cutTemp = NULL;
   int found = 0;
   while (queueNode != NULL) {
-    if (*queueNode->value == *find) {
+    if (queueNode->value == find) {
       found = 1;
       break;
     }
@@ -41,4 +45,11 @@ void* remove(Queue queue, void* find) {
     free(queueNode);
   }
   queueNode = startTemp;
+}
+
+Kisi get(Queue queue, int index){
+  int counter = 0;
+  Node temp = queue->head;
+  while(counter < index && temp != NULL) temp = temp->next;
+  return temp->value;
 }
