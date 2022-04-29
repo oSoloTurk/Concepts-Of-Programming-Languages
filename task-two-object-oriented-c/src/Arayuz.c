@@ -18,18 +18,19 @@ Arayuz new_Arayuz() {
 
 void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, const Kisi topRich) {
     printf("\n\n"); //top 2 empty line
-    printf("\t\t\t\t##########################################\n");
-    printf("\t\t\t\t##\t\t\t\tSANSLI SAYI: %d\t\t\t##\n", luckyNumber);
-    printf("\t\t\t\t##########################################\n");
-    printf("\t\t\t\t##########################################\n");
-    printf("\t\t\t\t##\t\t\t\tTUR: %d\t\t\t\t\t##\n", round);
-    printf("\t\t\t\t##\t\tMASA BAKIYE: %.4f\t\t\t\t##\n", house);
-    printf("\t\t\t\t##\t\t\t\t\t\t\t\t\t\t##\n");
-    printf("\t\t\t\t##--------------------------------------##\n");
-    printf("\t\t\t\t##\t\t\t\tEN ZENGIN KISI\t\t\t##\n");
-    printf("\t\t\t\t##\t\t\t\t%s\t\t\t\t##\n", topRich->getName(topRich));
-    printf("\t\t\t\t##\t\tBAKIYESI: %f\t\t\t##\n", *topRich->getTotalMoney(topRich));
-    printf("\t\t\t\t##########################################\n");
+    printf("\t\t\t\t##########################################################\n");
+    printf("\t\t\t\t##\t\t\tSANSLI SAYI: %4d\t\t##\n", luckyNumber);
+    printf("\t\t\t\t##########################################################\n");
+    printf("\t\t\t\t##########################################################\n");
+    printf("\t\t\t\t##\t\t\tTUR: %4d\t\t\t##\n", round);
+    printf("\t\t\t\t##\t\tMASA BAKIYE: %11.4f\t\t##\n", house);
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##------------------------------------------------------##\n");
+    printf("\t\t\t\t##\t\t\tEN ZENGIN KISI\t\t\t##\n");
+    printf("\t\t\t\t##\t\t\t%s\t\t\t##\n", topRich->getName(topRich));
+    printf("\t\t\t\t##\t\tBAKIYESI: %11f\t\t\t##\n", *(topRich->getTotalMoney(topRich)));
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##########################################################\n");
     printf("\n\n"); //bottom 2 empty line
   return 0;
 }

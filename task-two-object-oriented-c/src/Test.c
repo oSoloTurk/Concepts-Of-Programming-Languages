@@ -22,9 +22,11 @@ int main(int argc, char ** argv) {
   Oyun oyun = new_Oyun();
   //William Murphy#77243.19#0.99#7
   for (int line = 0, size = 1; fgets(buffer, sizeof buffer, kisilerDosya -> getFile(kisilerDosya));line++, size++) {
-    char name[20];
-    char surname[20];
+    char* name = malloc(20 * sizeof(char));
+    char* surname = malloc(20 * sizeof(char));
     sscanf(buffer, "%s %[^#]%c%[^#]%c%[^#]%c%s", name, surname, &trash, total, &trash, spendMoneyEachRound, &trash, luckyNumber);
+    strcat(name, " ");
+    strcat(name, surname);
     Kisi kisi = new_Kisi(name, atof(total), atof(spendMoneyEachRound), atol(luckyNumber));
     oyun -> joinGame(oyun, kisi);
   }
