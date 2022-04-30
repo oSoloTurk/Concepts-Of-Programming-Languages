@@ -42,7 +42,7 @@ void* nextRound(const Oyun oyun) {
 	for(int index = 0; index < *(oyun->getPlayerSize(oyun));index++) {
 		Kisi kisi = players[index];
 
-		float transaction = (*(kisi->getTotalMoney(kisi))) * (*(kisi->getSpendMoneyEachRound(kisi)));
+		double transaction = (*(kisi->getTotalMoney(kisi))) * (*(kisi->getSpendMoneyEachRound(kisi)));
 
 		*(kisi->getTotalMoney(kisi)) -= transaction;
 		*(oyun->getHouse(oyun)) += transaction;
@@ -52,7 +52,7 @@ void* nextRound(const Oyun oyun) {
 			*(oyun->getHouse(oyun)) -= (transaction * 10.0);
 		}
 
-		if(*(kisi->getTotalMoney(kisi)) < 1000) {
+		if(*(kisi->getTotalMoney(kisi)) <= 1000) {
 			temporaryElimitaneList[eliminateIndex++] = kisi;
 		}
 	}
@@ -69,7 +69,7 @@ void* playGame(const Oyun oyun, const Arayuz arayuz) {
 		if(*(oyun->getPlayerSize(oyun)) <= 1) {
 			break;
 		}
-	    sleep(1/2);
+	    sleep(1/5);
 	}
 }
 
@@ -87,9 +87,9 @@ void* printStatus(const Oyun oyun, const Arayuz arayuz){
 	arayuz->cleanScreen(arayuz);
 	if(*(oyun->getPlayerSize(oyun)) <= 1) {
 		arayuz->writeFinish(arayuz, 
-		*(oyun->getRound(oyun)),
-		*(oyun->getHouse(oyun))
-		);
+			*(oyun->getRound(oyun)),
+			*(oyun->getHouse(oyun))
+			);
 	} else {
 		arayuz->writeStatus(arayuz, 
 			*(oyun->getWinnerNumber(oyun)), 
@@ -116,7 +116,7 @@ int* getWinnerNumber(const Oyun oyun) {
 	return &oyun->winnerNumber;
 }
 
-float* getHouse(const Oyun oyun){
+double* getHouse(const Oyun oyun){
 	return &oyun->house;
 }
 

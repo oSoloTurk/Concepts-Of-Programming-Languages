@@ -17,30 +17,30 @@ Arayuz new_Arayuz() {
     return arayuz;
 }
 
-void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, const Kisi topRich) {
+void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, double house, const Kisi topRich) {
     printf("\n\n"); //top 2 empty line
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##\t\t\tSANSLI SAYI: %4d\t\t##\n", luckyNumber);
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##\t\t\tTUR: %4d\t\t\t##\n", round);
-    printf("\t\t\t\t##\t\tMASA BAKIYE: %11lf\t\t##\n", house);
+    printf("\t\t\t\t##\t\tMASA BAKIYE: %11.2lf\t\t##\n", house);
     printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
     printf("\t\t\t\t##------------------------------------------------------##\n");
     printf("\t\t\t\t##\t\t\tEN ZENGIN KISI\t\t\t##\n");
     printf("\t\t\t\t##\t\t\t%s\t\t\t##\n", topRich->getName(topRich));
-    printf("\t\t\t\t##\t\tBAKIYESI: %11f\t\t\t##\n", *(topRich->getTotalMoney(topRich)));
+    printf("\t\t\t\t##\t\tBAKIYESI: %11.2f\t\t\t##\n", *(topRich->getTotalMoney(topRich)));
     printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
     printf("\t\t\t\t##########################################################\n");
     printf("\n\n"); //bottom 2 empty line
   return 0;
 }
 
-void *writeFinish(const Arayuz arayuz, int round, float house){
+void *writeFinish(const Arayuz arayuz, int round, double house){
     printf("\n\n"); //top 2 empty line
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##\t\t\tTUR: %4d\t\t\t##\n", round);
-    printf("\t\t\t\t##\t\tMASA BAKIYE: %11lf\t\t##\n", house);
+    printf("\t\t\t\t##\t\tMASA BAKIYE: %11.2lf\t\t##\n", house);
     printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
     printf("\t\t\t\t##------------------------------------------------------##\n");
     printf("\t\t\t\t##\t\t\tOYUN BITTI\t\t\t##\n");

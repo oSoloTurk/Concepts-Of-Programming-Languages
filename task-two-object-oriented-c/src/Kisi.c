@@ -4,7 +4,7 @@
 #include "../include/Kisi.h"
 #include <stdio.h>
 
-Kisi new_Kisi(char* name, float totalMoney, float spendMoneyEachRound, int luckyNumber){
+Kisi new_Kisi(char* name, double totalMoney, double spendMoneyEachRound, int luckyNumber){
     Kisi kisi = (Kisi)malloc(sizeof(struct Kisi));
     
     kisi->name = name;
@@ -23,11 +23,11 @@ char* getName(const Kisi kisi){
     return kisi->name;
 }
 
-float* getTotalMoney(const Kisi kisi){
+double* getTotalMoney(const Kisi kisi){
     return &(kisi->totalMoney);
 }
 
-float* getSpendMoneyEachRound(const Kisi kisi){
+double* getSpendMoneyEachRound(const Kisi kisi){
     return &(kisi->spendMoneyEachRound);
 }
 

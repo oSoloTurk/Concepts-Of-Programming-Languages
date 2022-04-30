@@ -14,7 +14,7 @@ struct Oyun{
     
    int round;
    int winnerNumber;
-   float house;
+   double house;
    int playerSize;
 
    Kisi* players;
@@ -23,7 +23,7 @@ struct Oyun{
 
    int* (*getRound)(struct Oyun*);
    int* (*getWinnerNumber)(struct Oyun*);
-   float* (*getHouse)(struct Oyun*);
+   double* (*getHouse)(struct Oyun*);
    Dosya (*getWinnerNumbers)(struct Oyun*);
    Kisi* (*getPlayers)(struct Oyun*);
    int* (*getPlayerSize)(struct Oyun*);
@@ -45,7 +45,7 @@ Oyun new_Oyun();
 
 int* getWinnerNumber(const Oyun);
 int* getRound(const Oyun);
-float* getHouse(const Oyun);
+double* getHouse(const Oyun);
 Dosya getWinnerNumbers(const Oyun);
 Kisi* getPlayers(const Oyun);
 int* getPlayerSize(const Oyun);
