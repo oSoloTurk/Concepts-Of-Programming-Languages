@@ -5,13 +5,14 @@
 #include "../include/Arayuz.h"
 
 #define INTERFACE_HEIGHT 16
-#define ESTIMATED_LINE_WIDTH 100
+#define ESTIMATED_LINE_WIDTH 90
 
 Arayuz new_Arayuz() {
     Arayuz arayuz = (Arayuz) malloc(sizeof(struct Arayuz));    
 
     arayuz->cleanScreen = &cleanScreen;
     arayuz->writeStatus = &writeStatus;
+    arayuz->writeFinish = &writeFinish;
 
     return arayuz;
 }
@@ -23,7 +24,7 @@ void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, 
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##########################################################\n");
     printf("\t\t\t\t##\t\t\tTUR: %4d\t\t\t##\n", round);
-    printf("\t\t\t\t##\t\tMASA BAKIYE: %11.4f\t\t##\n", house);
+    printf("\t\t\t\t##\t\tMASA BAKIYE: %11lf\t\t##\n", house);
     printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
     printf("\t\t\t\t##------------------------------------------------------##\n");
     printf("\t\t\t\t##\t\t\tEN ZENGIN KISI\t\t\t##\n");
@@ -35,19 +36,35 @@ void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, 
   return 0;
 }
 
+void *writeFinish(const Arayuz arayuz, int round, float house){
+    printf("\n\n"); //top 2 empty line
+    printf("\t\t\t\t##########################################################\n");
+    printf("\t\t\t\t##\t\t\tTUR: %4d\t\t\t##\n", round);
+    printf("\t\t\t\t##\t\tMASA BAKIYE: %11lf\t\t##\n", house);
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##------------------------------------------------------##\n");
+    printf("\t\t\t\t##\t\t\tOYUN BITTI\t\t\t##\n");
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##\t\t\t\t\t\t\t##\n");
+    printf("\t\t\t\t##########################################################\n");
+    printf("\n\n"); //bottom 2 empty line
+  return 0;
+}
+
 void *cleanScreen(const Arayuz arayuz) {
   //This is good but like a lifehack, legacy way below the here
   system("cls");
 
   /*
-  for(int eraseCursor = 0;eraseCursor < (INTERFACE_HEIGHT * ESTIMATED_LINE_WIDTH);eraseCursor++) {
-    printf("\b");
-  }
-  for(int yCoord = 0;yCoord < INTERFACE_HEIGHT;yCoord++) {
-    for(int xCoord = 0; xCoord < ESTIMATED_LINE_WIDTH;xCoord++) {
-        printf(" ");
+    for(int eraseCursor = 0;eraseCursor < (INTERFACE_HEIGHT * ESTIMATED_LINE_WIDTH);eraseCursor++) {
+      printf("\b");
     }
-    printf("\n");
-  }
+    for(int yCoord = 0;yCoord < INTERFACE_HEIGHT;yCoord++) {
+      for(int xCoord = 0; xCoord < ESTIMATED_LINE_WIDTH;xCoord++) {
+          printf(" ");
+      }
+      printf("\n");
+    }
   */
 }

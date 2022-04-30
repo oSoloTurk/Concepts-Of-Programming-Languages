@@ -11,7 +11,7 @@ Oyun new_Oyun() {
 
 	oyun->round = 0;
 	oyun->winnerNumber = -1;
-	oyun->house = 0.0;
+	oyun->house = 0;
 	oyun->playerSize = 0;
 
 	oyun->players = (Kisi*)calloc(1, sizeof(Kisi));
@@ -20,6 +20,7 @@ Oyun new_Oyun() {
 	oyun->getWinnerNumbers = &getWinnerNumbers;
 	oyun->getHouse = &getHouse;
 	oyun->getPlayers = &getPlayers;
+	oyun->getPlayerSize = &getPlayerSize;
 	oyun->setPlayers = &setPlayers;
 
 	oyun->nextRound = &nextRound;
@@ -35,21 +36,28 @@ Oyun new_Oyun() {
 
 void* nextRound(const Oyun oyun) {
 	Kisi* players = oyun->getPlayers(oyun);
-	Dosya winnerNumbers = oyun->getWinnerNumbers(oyun);
 	readNextNumber(oyun);
-	for(int index = 0; index < oyun->playerSize;index++) {
+	Kisi* temporaryElimitaneList = calloc(*(oyun->getPlayerSize(oyun)), sizeof(Kisi));
+	int eliminateIndex = 0;
+	for(int index = 0; index < *(oyun->getPlayerSize(oyun));index++) {
 		Kisi kisi = players[index];
+
 		float transaction = (*(kisi->getTotalMoney(kisi))) * (*(kisi->getSpendMoneyEachRound(kisi)));
+
 		*(kisi->getTotalMoney(kisi)) -= transaction;
+		*(oyun->getHouse(oyun)) += transaction;
+
 		if(*(kisi->getLuckyNumber(kisi)) == *(oyun->getWinnerNumber(oyun))) {
-			*(kisi->getTotalMoney(kisi)) += (transaction * 10);
-			*(oyun->getHouse(oyun)) -= (transaction * 9);
-		} else {
-			*(oyun->getHouse(oyun)) += transaction;
+			*(kisi->getTotalMoney(kisi)) += (transaction * 10.0);
+			*(oyun->getHouse(oyun)) -= (transaction * 10.0);
 		}
+
 		if(*(kisi->getTotalMoney(kisi)) < 1000) {
-			eliminatePlayer(oyun, kisi);
+			temporaryElimitaneList[eliminateIndex++] = kisi;
 		}
+	}
+	for(int index = 0;index < eliminateIndex;index++) {
+		eliminatePlayer(oyun, temporaryElimitaneList[index]);
 	}
 	*(oyun->getRound(oyun)) += 1;
 }
@@ -57,38 +65,46 @@ void* nextRound(const Oyun oyun) {
 void* playGame(const Oyun oyun, const Arayuz arayuz) {
 	while(1){
 		oyun->nextRound(oyun);
-		if(oyun->playerSize <= 1) {
+		oyun->printStatus(oyun, arayuz);
+		if(*(oyun->getPlayerSize(oyun)) <= 1) {
 			break;
 		}
-		oyun->printStatus(oyun, arayuz);
 	    sleep(1/2);
 	}
 }
+
 
 void* printStatus(const Oyun oyun, const Arayuz arayuz){
 	Kisi* players = oyun->getPlayers(oyun);
 	Kisi topRich = players[0];
 
-	for(int index = 1; index < oyun->playerSize;index++) {
+	for(int index = 1; index < *(oyun->getPlayerSize(oyun));index++) {
 		if (*(topRich->getTotalMoney(topRich)) < *(players[index]->getTotalMoney(players[index]))){
 			topRich = players[index];
 		}
 	}
 
 	arayuz->cleanScreen(arayuz);
-	arayuz->writeStatus(arayuz, 
-		*(oyun->getWinnerNumber(oyun)), 
+	if(*(oyun->getPlayerSize(oyun)) <= 1) {
+		arayuz->writeFinish(arayuz, 
 		*(oyun->getRound(oyun)),
-		*(oyun->getHouse(oyun)),
-		topRich
+		*(oyun->getHouse(oyun))
 		);
+	} else {
+		arayuz->writeStatus(arayuz, 
+			*(oyun->getWinnerNumber(oyun)), 
+			*(oyun->getRound(oyun)),
+			*(oyun->getHouse(oyun)),
+			topRich
+			);
+	}
 }
 void* joinGame(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
-	players = (Kisi*)realloc(players, (oyun->playerSize + 2) * sizeof(Kisi));
-	players[oyun->playerSize] = kisi;
+	players = (Kisi*)realloc(players, (*(oyun->getPlayerSize(oyun)) + 2) * sizeof(Kisi));
+	players[*(oyun->getPlayerSize(oyun))] = kisi;
 	oyun->setPlayers(oyun, players);
-	oyun->playerSize++;
+	*(oyun->getPlayerSize(oyun)) += 1;
 	return 0;
 }
 
@@ -112,20 +128,24 @@ Kisi* getPlayers(const Oyun oyun){
 	return oyun->players;
 }
 
+int* getPlayerSize(const Oyun oyun){
+	return &oyun->playerSize;
+}
+
 void* setPlayers(const Oyun oyun, Kisi* players){
 	oyun->players = players;
 }
 
 void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 	Kisi* players = oyun->getPlayers(oyun);
-	int length = oyun->playerSize;
+	int length = *(oyun->getPlayerSize(oyun));
 	int searchinIngex = 0;
 
 	for(; searchinIngex < length;searchinIngex++){
 		Kisi searchingUser = players[searchinIngex];
 		if(searchingUser == kisi) {
 			break;
-		}	
+		}
 	}
 	Kisi tempKisi = players[length - 1];
 	players[length - 1] = kisi;
@@ -133,10 +153,13 @@ void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 
 	players = (Kisi*)realloc(players, (length - 1) * sizeof(Kisi));
 	oyun->setPlayers(oyun, players);
-	oyun->playerSize--;
+	*(oyun->getPlayerSize(oyun)) -= 1;
 	return 0;
 }
 
 void* readNextNumber(const Oyun oyun){
+	if(feof(oyun->getWinnerNumbers(oyun)->getFile(oyun->getWinnerNumbers(oyun)))) {
+		oyun->getWinnerNumbers(oyun)->reload(oyun->getWinnerNumbers(oyun));
+	}
 	fscanf(oyun->getWinnerNumbers(oyun)->getFile(oyun->getWinnerNumbers(oyun)), "%d", oyun->getWinnerNumber(oyun));
 }

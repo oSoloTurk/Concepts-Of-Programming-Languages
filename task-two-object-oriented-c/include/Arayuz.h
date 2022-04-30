@@ -12,6 +12,7 @@
 struct Arayuz {
     void* (*cleanScreen)(struct Arayuz*);
     void* (*writeStatus)(struct Arayuz*, int luckyNumber, int round, float house, struct Kisi* topRich);
+    void* (*writeFinish)(struct Arayuz*,int round, float house);
 };
 
 typedef struct Arayuz *Arayuz;
@@ -19,6 +20,7 @@ typedef struct Arayuz *Arayuz;
 Arayuz new_Arayuz();
 
 void* writeStatus(const Arayuz arayuz, int luckyNumber, int round, float house, Kisi topRich);
+void* writeFinish(const Arayuz arayuz, int round, float house);
 void* cleanScreen(const Arayuz arayuz);
 
 #endif //PDP_TASK_TWO_ARAYUZ_H

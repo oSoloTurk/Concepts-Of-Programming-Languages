@@ -17,12 +17,23 @@ Dosya new_Dosya(char *path) {
     }
 
     dosya->getFile = &getFile;
+    dosya->reload = &reload;
+    dosya->getPath = &getPath;
 
     return dosya;
 }
 
 FILE *getFile(const Dosya dosya) {
     return dosya->file;
+}
+
+void* reload(const Dosya dosya) {
+    fclose(dosya->getFile(dosya));
+    dosya->file = fopen(dosya->path, "r+");
+    if (dosya->file == NULL) {
+        printf("We do not acces to %s for read operation, errno: %d\n", dosya->path, errno);
+        return NULL;
+    }
 }
 
 char *getPath(const Dosya dosya) {

@@ -14,6 +14,7 @@ struct Dosya {
     FILE* file;
 
     FILE* (*getFile)(struct Dosya*);
+    void* (*reload)(struct Dosya*);
     char* (*getPath)(struct Dosya*);
 };
 
@@ -22,6 +23,7 @@ typedef struct Dosya *Dosya;
 Dosya new_Dosya(char* path);
 
 FILE* getFile(const Dosya dosya);
+void* reload(const Dosya dosya);
 char* getPath(const Dosya dosya);
 
 #endif //PDP_TASK_TWO_DOSYA_H
