@@ -14,9 +14,15 @@ Kisi new_Kisi(char* name, double totalMoney, double spendMoneyEachRound, int luc
 
     kisi->getName = &getName;
     kisi->getTotalMoney = &getTotalMoney;
+    kisi->setTotalMoney = &setTotalMoney;
     kisi->getSpendMoneyEachRound = &getSpendMoneyEachRound;
     kisi->getLuckyNumber = &getLuckyNumber;
     return kisi;
+}
+
+void delete_Kisi(Kisi kisi) {
+    free(kisi); // mark as free
+    kisi = NULL; // block access until the override
 }
 
 char* getName(const Kisi kisi){
@@ -25,6 +31,10 @@ char* getName(const Kisi kisi){
 
 double* getTotalMoney(const Kisi kisi){
     return &(kisi->totalMoney);
+}
+
+void* setTotalMoney(const Kisi kisi, const double value){
+    kisi->totalMoney = value;
 }
 
 double* getSpendMoneyEachRound(const Kisi kisi){
