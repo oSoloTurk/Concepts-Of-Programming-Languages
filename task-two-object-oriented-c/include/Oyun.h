@@ -14,7 +14,7 @@ struct Oyun{
     
    int round;
    int winnerNumber;
-   long double house;
+   double house;
    int playerSize;
 
    Kisi* players;
@@ -24,13 +24,14 @@ struct Oyun{
    int* (*getRound)(struct Oyun*);
    void* (*incrRound)(struct Oyun*);
    int* (*getWinnerNumber)(struct Oyun*);
-   long double* (*getHouse)(struct Oyun*);
-   void* (*setHouse)(struct Oyun*, long double);
+   double* (*getHouse)(struct Oyun*);
    Dosya (*getWinnerNumbers)(struct Oyun*);
    Kisi* (*getPlayers)(struct Oyun*);
    int* (*getPlayerSize)(struct Oyun*);
 
    void* (*setPlayers)(struct Oyun*, Kisi*);
+   void* (*setHouse)(struct Oyun*, double);
+   void* (*setPlayerSize)(struct Oyun*, int);
 
    void* (*nextRound)(struct Oyun*);
    void* (*playGame)(struct Oyun*, struct Arayuz*);
@@ -48,11 +49,12 @@ Oyun new_Oyun();
 int* getWinnerNumber(const Oyun);
 int* getRound(const Oyun);
 void* incrRound(const Oyun);
-long double* getHouse(const Oyun);
-void* setHouse(const Oyun, const long double);
+double* getHouse(const Oyun);
+void* setHouse(const Oyun, const double);
 Dosya getWinnerNumbers(const Oyun);
 Kisi* getPlayers(const Oyun);
 int* getPlayerSize(const Oyun);
+void* setPlayerSize(const Oyun, const int);
 
 void* setPlayers(const Oyun, Kisi*);
 

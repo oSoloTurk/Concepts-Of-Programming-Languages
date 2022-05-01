@@ -7,6 +7,7 @@
 #else
 #include <unistd.h>
 #endif
+
 void* eliminatePlayer(const Oyun, const Kisi);
 void* readNextNumber(const Oyun oyun);
 
@@ -28,6 +29,7 @@ Oyun new_Oyun() {
 	oyun->getPlayers = &getPlayers;
 	oyun->getPlayerSize = &getPlayerSize;
 	oyun->setPlayers = &setPlayers;
+	oyun->setPlayerSize = &setPlayerSize;
 
 	oyun->nextRound = &nextRound;
 	oyun->playGame = &playGame;
@@ -39,8 +41,6 @@ Oyun new_Oyun() {
 
 	return oyun;
 }
-
-
 
 int* getRound(const Oyun oyun) {
 	return &oyun->round;
@@ -54,11 +54,11 @@ int* getWinnerNumber(const Oyun oyun) {
 	return &oyun->winnerNumber;
 }
 
-long double* getHouse(const Oyun oyun){
+double* getHouse(const Oyun oyun){
 	return &oyun->house;
 }
 
-void* setHouse(const Oyun oyun, const long double value){
+void* setHouse(const Oyun oyun, const double value){
 	oyun->house = value;
 }
 
@@ -74,13 +74,16 @@ int* getPlayerSize(const Oyun oyun){
 	return &oyun->playerSize;
 }
 
+void* setPlayerSize(const Oyun oyun, int value){
+	oyun->playerSize = value;
+}
+
 void* setPlayers(const Oyun oyun, Kisi* players){
 	oyun->players = players;
 }
 
 //48528976.54
 void* nextRound(const Oyun oyun) {
-	printf("::%d\n", *oyun->getRound(oyun));
 	Kisi* players = oyun->getPlayers(oyun);
 	readNextNumber(oyun);
 	oyun->incrRound(oyun);
@@ -92,12 +95,12 @@ void* nextRound(const Oyun oyun) {
 
 		transaction = (*(kisi->getTotalMoney(kisi))) * (*(kisi->getSpendMoneyEachRound(kisi)));
 
-		*(kisi->getTotalMoney(kisi)) -= transaction;
-		*(oyun->getHouse(oyun)) += transaction;
+		kisi->setTotalMoney(kisi, *(kisi->getTotalMoney(kisi)) - transaction);
+		oyun->setHouse(oyun, *(oyun->getHouse(oyun)) + transaction);
 
 		if(*(kisi->getLuckyNumber(kisi)) == *(oyun->getWinnerNumber(oyun))) {
-			*(kisi->getTotalMoney(kisi)) += (transaction * 10.0);
-			*(oyun->getHouse(oyun)) -= (transaction * 10.0);
+			kisi->setTotalMoney(kisi, *(kisi->getTotalMoney(kisi)) + (transaction * 10.0));
+			oyun->setHouse(oyun, *(oyun->getHouse(oyun)) - (transaction * 10.0));
 		}
 
 		if(*(kisi->getTotalMoney(kisi)) <= 1000) {
@@ -117,7 +120,7 @@ void* playGame(const Oyun oyun, const Arayuz arayuz) {
 		if(*(oyun->getPlayerSize(oyun)) < 1) {
 			break;
 		}
-	    //Sleep(1000/5);
+	    Sleep(1000/15);
 	}
 }
 
@@ -125,6 +128,8 @@ void* playGame(const Oyun oyun, const Arayuz arayuz) {
 void* printStatus(const Oyun oyun, const Arayuz arayuz){
 	Kisi* players = oyun->getPlayers(oyun);
 
+	arayuz->cleanScreen(arayuz);
+	
 	if(*oyun->getPlayerSize(oyun) > 1) {
 		Kisi topRich = players[0];
 		for(int index = 1; index < *(oyun->getPlayerSize(oyun));index++) {
@@ -138,8 +143,8 @@ void* printStatus(const Oyun oyun, const Arayuz arayuz){
 			*(oyun->getHouse(oyun)),
 			topRich
 			);
+		return NULL;
 	}
-	arayuz->cleanScreen(arayuz);
 	arayuz->writeFinish(arayuz, 
 		*(oyun->getRound(oyun)),
 		*(oyun->getHouse(oyun))
@@ -151,7 +156,7 @@ void* joinGame(const Oyun oyun, const Kisi kisi) {
 	players = (Kisi*)realloc(players, (*(oyun->getPlayerSize(oyun)) + 2) * sizeof(Kisi));
 	players[*(oyun->getPlayerSize(oyun))] = kisi;
 	oyun->setPlayers(oyun, players);
-	*(oyun->getPlayerSize(oyun)) += 1;
+	oyun->setPlayerSize(oyun, *(oyun->getPlayerSize(oyun)) + 1);
 	return 0;
 }
 
@@ -173,7 +178,7 @@ void* eliminatePlayer(const Oyun oyun, const Kisi kisi) {
 	delete_Kisi(kisi);
 	players = (Kisi*)realloc(players, (length - 1) * sizeof(Kisi));
 	oyun->setPlayers(oyun, players);
-	*(oyun->getPlayerSize(oyun)) -= 1;
+	oyun->setPlayerSize(oyun, *(oyun->getPlayerSize(oyun)) - 1);
 }
 
 void* readNextNumber(const Oyun oyun){

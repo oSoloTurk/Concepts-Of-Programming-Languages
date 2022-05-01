@@ -14,9 +14,11 @@ Kisi new_Kisi(char* name, double totalMoney, double spendMoneyEachRound, int luc
 
     kisi->getName = &getName;
     kisi->getTotalMoney = &getTotalMoney;
-    kisi->setTotalMoney = &setTotalMoney;
     kisi->getSpendMoneyEachRound = &getSpendMoneyEachRound;
     kisi->getLuckyNumber = &getLuckyNumber;
+
+    kisi->setTotalMoney = &setTotalMoney;
+
     return kisi;
 }
 
