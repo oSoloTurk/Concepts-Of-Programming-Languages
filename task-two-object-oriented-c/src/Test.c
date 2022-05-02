@@ -1,11 +1,7 @@
 #include "../include/Dosya.h"
-
 #include "../include/Kisi.h"
-
 #include "../include/Oyun.h"
-
 #include "../include/Arayuz.h"
-
 #include <errno.h>
 
 //

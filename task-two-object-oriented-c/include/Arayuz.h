@@ -19,6 +19,8 @@ typedef struct Arayuz *Arayuz;
 
 Arayuz new_Arayuz();
 
+void* delete_Arayuz(Arayuz arayuz);
+
 void* writeStatus(const Arayuz arayuz, int luckyNumber, int round, double house, Kisi topRich);
 void* writeFinish(const Arayuz arayuz, int round, double house);
 void* cleanScreen(const Arayuz arayuz);

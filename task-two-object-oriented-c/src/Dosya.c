@@ -23,6 +23,11 @@ Dosya new_Dosya(char *path) {
     return dosya;
 }
 
+void* delete_Dosya(Dosya dosya){
+    free(dosya);
+    dosya = NULL;
+}
+
 FILE *getFile(const Dosya dosya) {
     return dosya->file;
 }

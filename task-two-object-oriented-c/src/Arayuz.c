@@ -17,6 +17,11 @@ Arayuz new_Arayuz() {
     return arayuz;
 }
 
+void* delete_Arayuz(Arayuz arayuz){
+    free(arayuz);
+    arayuz = NULL;
+}
+
 void *writeStatus(const Arayuz arayuz, int luckyNumber, int round, double house, const Kisi topRich) {
     printf("\n\n"); //top 2 empty line
     printf("\t\t\t\t##########################################################\n");

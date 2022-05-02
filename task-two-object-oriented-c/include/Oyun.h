@@ -44,24 +44,25 @@ typedef struct Oyun *Oyun;
 
 
 Oyun new_Oyun();
+void* delete_Oyun(const Oyun oyun);
 
 
-int* getWinnerNumber(const Oyun);
-int* getRound(const Oyun);
-void* incrRound(const Oyun);
-double* getHouse(const Oyun);
-void* setHouse(const Oyun, const double);
-Dosya getWinnerNumbers(const Oyun);
-Kisi* getPlayers(const Oyun);
-int* getPlayerSize(const Oyun);
-void* setPlayerSize(const Oyun, const int);
+int* getWinnerNumber(const Oyun oyun);
+int* getRound(const Oyun oyun);
+void* incrRound(const Oyun oyun);
+double* getHouse(const Oyun oyun);
+void* setHouse(const Oyun oyun, const double value);
+Dosya getWinnerNumbers(const Oyun oyun);
+Kisi* getPlayers(const Oyun oyun);
+int* getPlayerSize(const Oyun oyun);
+void* setPlayerSize(const Oyun oyun, const int value);
 
-void* setPlayers(const Oyun, Kisi*);
+void* setPlayers(const Oyun oyun, Kisi*);
 
-void* nextRound(const Oyun);
-void* playGame(const Oyun, const Arayuz);
-void* printStatus(const Oyun, const Arayuz);
+void* nextRound(const Oyun oyun);
+void* playGame(const Oyun oyun, const Arayuz arayuz);
+void* printStatus(const Oyun oyun, const Arayuz arayuz);
 
-void* joinGame(const Oyun, const Kisi);
+void* joinGame(const Oyun oyun, const Kisi kisi);
 
 #endif //PDP_TASK_TWO_OYUN_H

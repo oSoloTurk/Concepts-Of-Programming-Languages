@@ -18,28 +18,33 @@ Oyun new_Oyun() {
 	oyun->winnerNumber = -1;
 	oyun->house = 0;
 	oyun->playerSize = 0;
-
 	oyun->players = (Kisi*)calloc(1, sizeof(Kisi));
+
 	oyun->getRound = &getRound;
-	oyun->incrRound = &incrRound;
 	oyun->getWinnerNumber = &getWinnerNumber;
 	oyun->getWinnerNumbers = &getWinnerNumbers;
 	oyun->getHouse = &getHouse;
-	oyun->setHouse = &setHouse;
 	oyun->getPlayers = &getPlayers;
 	oyun->getPlayerSize = &getPlayerSize;
+
 	oyun->setPlayers = &setPlayers;
 	oyun->setPlayerSize = &setPlayerSize;
+	oyun->setHouse = &setHouse;
 
 	oyun->nextRound = &nextRound;
 	oyun->playGame = &playGame;
 	oyun->printStatus = &printStatus;
-
 	oyun->joinGame = &joinGame;
+	oyun->incrRound = &incrRound;
 
 	oyun->winnerNumbers = new_Dosya("./Sayilar.txt");
 
 	return oyun;
+}
+
+void* delete_Oyun(Oyun oyun){
+	free(oyun);
+	oyun = NULL;
 }
 
 int* getRound(const Oyun oyun) {
@@ -130,7 +135,7 @@ void* printStatus(const Oyun oyun, const Arayuz arayuz){
 
 	arayuz->cleanScreen(arayuz);
 	
-	if(*oyun->getPlayerSize(oyun) > 1) {
+	if(*(oyun->getPlayerSize(oyun)) > 1) {
 		Kisi topRich = players[0];
 		for(int index = 1; index < *(oyun->getPlayerSize(oyun));index++) {
 			if (*(topRich->getTotalMoney(topRich)) < *(players[index]->getTotalMoney(players[index]))){

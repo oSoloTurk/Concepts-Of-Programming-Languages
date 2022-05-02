@@ -25,13 +25,13 @@ struct Kisi{
 typedef struct Kisi *Kisi;
 
 Kisi new_Kisi(char* name, double totalMoney, double spendMoneyEachRound, int luckyNumber);
-void delete_Kisi(Kisi kisi);
+void* delete_Kisi(Kisi kisi);
 
 char* getName(const Kisi kisi);
 double* getTotalMoney(const Kisi kisi);
 double* getSpendMoneyEachRound(const Kisi kisi);
 int* getLuckyNumber(const Kisi kisi);
 
-void* setTotalMoney(const Kisi kisi, double value);
+void* setTotalMoney(const Kisi kisi, const double value);
 
 #endif //PDP_TASK_TWO_KISI_H

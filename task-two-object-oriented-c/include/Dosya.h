@@ -21,6 +21,7 @@ struct Dosya {
 typedef struct Dosya *Dosya;
 
 Dosya new_Dosya(char* path);
+void* delete_Dosya(Dosya dosya);
 
 FILE* getFile(const Dosya dosya);
 void* reload(const Dosya dosya);
