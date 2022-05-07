@@ -22,7 +22,7 @@ Kisi new_Kisi(char* name, double totalMoney, double spendMoneyEachRound, int luc
     return kisi;
 }
 
-void delete_Kisi(Kisi kisi) {
+void* delete_Kisi(Kisi kisi) {
     free(kisi); // mark as free
     kisi = NULL; // block access until the override
 }

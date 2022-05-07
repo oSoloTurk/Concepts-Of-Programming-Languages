@@ -28,5 +28,8 @@ int main(int argc, char ** argv) {
   }
   Arayuz arayuz = new_Arayuz();
   oyun -> playGame(oyun, arayuz);
+  delete_Oyun(oyun);
+  delete_Dosya(kisilerDosya);
+  delete_Arayuz(arayuz);
   return 0;
 }

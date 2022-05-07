@@ -43,6 +43,8 @@ Oyun new_Oyun() {
 }
 
 void* delete_Oyun(Oyun oyun){
+	delete_Dosya(oyun->getWinnerNumbers(oyun));
+	free(oyun->getPlayers(oyun));
 	free(oyun);
 	oyun = NULL;
 }

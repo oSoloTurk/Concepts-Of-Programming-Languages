@@ -24,6 +24,7 @@ Dosya new_Dosya(char *path) {
 }
 
 void* delete_Dosya(Dosya dosya){
+    fclose(dosya->getFile(dosya));
     free(dosya);
     dosya = NULL;
 }
