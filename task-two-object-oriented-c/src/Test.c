@@ -8,7 +8,7 @@
 // Created by hakki on 4/15/2022.
 //
 int main(int argc, char ** argv) {
-  Dosya kisilerDosya = new_Dosya("Kisiler.txt");
+  Dosya kisilerDosya = new_Dosya("./doc/Kisiler.txt");
 
   char buffer[100];
   char total[20];

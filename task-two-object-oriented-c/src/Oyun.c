@@ -37,7 +37,7 @@ Oyun new_Oyun() {
 	oyun->joinGame = &joinGame;
 	oyun->incrRound = &incrRound;
 
-	oyun->winnerNumbers = new_Dosya("./Sayilar.txt");
+	oyun->winnerNumbers = new_Dosya("./doc/Sayilar.txt");
 
 	return oyun;
 }
